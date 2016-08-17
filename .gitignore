@@ -1,3 +1,9 @@
+#Unity
+TopDownTank/Library/
+TopDownTank/.vs/
+TopDownTank/*.sln
+TopDownTank/*.csproj
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
