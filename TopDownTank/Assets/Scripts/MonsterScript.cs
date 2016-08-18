@@ -43,5 +43,11 @@ namespace Assets.Scripts
 				_damageTimer = DamageInterval;
 			}
 		}
+
+		private void OnDestroy()
+		{
+			var cam = GameObject.FindGameObjectWithTag("MainCamera");
+			if (cam != null) cam.GetComponent<GuiScript>().IncreaseScore();
+		}
 	}
 }
