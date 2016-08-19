@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadSafeCache", "ThreadSafeCache\ThreadSafeCache.csproj", "{ABB362C4-8898-43F6-9890-D81642B98E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{A6E776C1-3DC7-4EF5-9BB7-124E73388F07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABB362C4-8898-43F6-9890-D81642B98E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB362C4-8898-43F6-9890-D81642B98E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB362C4-8898-43F6-9890-D81642B98E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB362C4-8898-43F6-9890-D81642B98E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6E776C1-3DC7-4EF5-9BB7-124E73388F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6E776C1-3DC7-4EF5-9BB7-124E73388F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6E776C1-3DC7-4EF5-9BB7-124E73388F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6E776C1-3DC7-4EF5-9BB7-124E73388F07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
