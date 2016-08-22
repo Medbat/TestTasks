@@ -8,6 +8,10 @@ using ThreadSafeCache.Storages;
 
 namespace ThreadSafeCache
 {
+	/// <summary>
+	/// Класс для кэширования данных
+	/// </summary>
+	/// <typeparam name="T">Тип кэшируемых данных</typeparam>
 	public class Cache<T> : IEnumerable<T>
 	{
 		private readonly object _readWriteLock = new object();
@@ -23,6 +27,9 @@ namespace ThreadSafeCache
 
 		public TimeSpan? LifeTime;
 
+		/// <summary>
+		/// Получает или задаёт интервал для автоматического удаления элементов с истёкшим сроком хранения. При задании нового значения первый отсчёт начинается заново
+		/// </summary>
 		public TimeSpan? AutoReleaseInterval
 		{
 			get { return _autoReleaseInterval; }
@@ -40,8 +47,17 @@ namespace ThreadSafeCache
 			}
 		}
 
+		/// <summary>
+		/// Количество закэшированных устаревших/неустаревших на данный момент элементов
+		/// </summary>
 		public int CacheSize => _storage.Length;
 
+		/// <summary>
+		/// Конструктор для создания экземпляра кэша
+		/// </summary>
+		/// <param name="storage">Хранилище данных</param>
+		/// <param name="lifeTime">Время жизни элементов</param>
+		/// <param name="autoReleaseIntreval">Интервал автоматической очистки просроченных элементов</param>
 		public Cache(IStorage<T> storage, TimeSpan? lifeTime = null, TimeSpan? autoReleaseIntreval = null)
 		{
 			_storage = storage;
@@ -50,6 +66,11 @@ namespace ThreadSafeCache
 			_lifeTimes = new List<DateTime>();
 		}
 
+		/// <summary>
+		/// Получает кэшированный объект по заданному индексу. Проверки на актуальность элемента не происходит
+		/// </summary>
+		/// <param name="index">Индекс запрашиваемого объекта</param>
+		/// <returns>Кэшированный объект</returns>
 		public T Get(int index)
 		{
 			lock (_readWriteLock)
@@ -58,6 +79,12 @@ namespace ThreadSafeCache
 			}
 		}
 
+		/// <summary>
+		/// Пытается получить кэшированный объект по заданному индексу. Если он устарел, выбрасывается ElementNotActualException
+		/// </summary>
+		/// <param name="index">Индекс запрашиваемого объекта</param>
+		/// <exception cref="ElementNotActualException"></exception>
+		/// <returns>Кэшированный объект</returns>
 		public T GetIfActual(int index)
 		{
 			if (!IsActual(_lifeTimes[index]))
@@ -71,8 +98,16 @@ namespace ThreadSafeCache
 			}
 		}
 
+		/// <summary>
+		/// Добавляет элемент в кэш
+		/// </summary>
+		/// <param name="element">Добавляемый элемент</param>
+		/// <returns>Индекс добавленного элемента</returns>
 		public int Add(T element)
 		{
+			for (int i = 0; i < CacheSize; i++)
+				if (element.Equals(Get(i)))
+					return i;
 			lock (_readWriteLock)
 			{
 				var index = _storage.Add(element);
@@ -81,6 +116,9 @@ namespace ThreadSafeCache
 			}
 		}
 
+		/// <summary>
+		/// Удаляет просроченные объекты
+		/// </summary>
 		public void ReleaseOld()
 		{
 			lock (_readWriteLock)
@@ -94,11 +132,19 @@ namespace ThreadSafeCache
 			}
 		}
 
+		/// <summary>
+		/// Получает итератор для использования объекта в foreach
+		/// </summary>
+		/// <returns></returns>
 		public IEnumerator<T> GetEnumerator()
 		{
 			return new SafeEnumerator<T>(_storage.GetEnumerator(), _readWriteLock);
 		}
 
+		/// <summary>
+		/// Получает итератор для использования объекта в foreach
+		/// </summary>
+		/// <returns></returns>
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();

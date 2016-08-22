@@ -4,6 +4,10 @@ using System.Threading;
 
 namespace ThreadSafeCache
 {
+	/// <summary>
+	/// Реализация потокобезопасного перечисления для любого типа данных
+	/// </summary>
+	/// <typeparam name="T">Тип данных, значения которого будут перечисляться</typeparam>
 	public class SafeEnumerator<T> : IEnumerator<T>
 	{
 		private readonly IEnumerator<T> _enumerator;
