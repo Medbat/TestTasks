@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using ThreadSafeCache;
 using ThreadSafeCache.Exceptions;
 using ThreadSafeCache.Storages;
@@ -87,6 +89,30 @@ namespace UnitTests
 			{
 				Assert.IsTrue(cached == 5);
 			}
+		}
+
+		[Ignore]
+		[TestMethod]
+		public void DbStorageTest()
+		{
+			var mockSet = new Mock<DbSet<DbStorageEntity>>();
+			var mockContext = new Mock<DbStorageContext>();
+			mockContext.Setup(m => m.Table).Returns(mockSet.Object);
+			var cache = new Cache<SampleElement>(new DbStorage<SampleElement>(mockContext.Object));
+			cache.Add(new SampleElement { A = int.MaxValue, B = float.Epsilon });
+			cache.Get(1);
+			foreach (var el in cache)
+			{
+				Assert.IsTrue(el.A == int.MaxValue);
+				Assert.IsTrue(Math.Abs(el.B - float.Epsilon) < 0.001);
+			}
+			Assert.IsTrue(cache.CacheSize == 1);
+		}
+		
+		private class SampleElement
+		{
+			public int A;
+			public float B;
 		}
 	}
 }

@@ -1,84 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using EntityFramework.Extensions;
+using Newtonsoft.Json;
 
 namespace ThreadSafeCache.Storages
 {
 	public class DbStorage<T> : IStorage<T>
 	{
-		private readonly string _connectionString;
+		private readonly DbStorageContext _context;
 
-		public DbStorage(string connectionString)
+		public DbStorage(DbStorageContext openedContext)
 		{
-			_connectionString = connectionString;
+			_context = openedContext;
 		}
 
-		public int Length
-		{
-			get
-			{
-				using (var connection = new Db(_connectionString))
-				{
-					return connection.Table.Count();
-				}
-			}
-		}
+		public int Length => _context.Table.Count();
 
-		public void Add(T element)
+		public int Add(T element)
 		{
-			using (var connection = new Db(_connectionString))
-			{
-				connection.Table.Add(new Entity {Value = element});
-			}
+			var added = _context.Table.Add(new DbStorageEntity {Value = JsonConvert.SerializeObject(element)});
+			_context.SaveChanges();
+			return added.ID;
 		}
 
 		public T Get(int index)
 		{
-			using (var connection = new Db(_connectionString))
-			{
-				return connection.Table.First(e => e.ID == index).Value;
-			}
+			return JsonConvert.DeserializeObject<T>(_context.Table.Find(index).Value);
 		}
 
 		public void Remove(int index)
 		{
-			using (var connection = new Db(_connectionString))
-			{
-				connection.Table.Where(e => e.ID == index).Delete();
-			}
+			_context.Table.Where(e => e.ID == index).Delete();
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			using (var connection = new Db(_connectionString))
-			{
-				return (IEnumerator<T>)connection.Table.Local.GetEnumerator();
-			}
+			return (IEnumerator<T>) _context.Table.Select(e => JsonConvert.DeserializeObject<T>(e.Value)).AsEnumerable();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
-		}
-
-		private class Db : DbContext
-		{
-			public Db(string connectionString) : base(connectionString)
-			{
-			}
-
-			public DbSet<Entity> Table { get; set; }
-		}
-
-		private class Entity
-		{
-			[Key]
-			public int ID;
-
-			public T Value { get; set; }
 		}
 	}
 }

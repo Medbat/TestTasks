@@ -71,12 +71,13 @@ namespace ThreadSafeCache
 			}
 		}
 
-		public void Add(T element)
+		public int Add(T element)
 		{
 			lock (_readWriteLock)
 			{
-				_storage.Add(element);
+				var index = _storage.Add(element);
 				_lifeTimes.Add(DateTime.Now);
+				return index;
 			}
 		}
 

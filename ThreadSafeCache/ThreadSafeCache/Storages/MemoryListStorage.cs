@@ -14,9 +14,10 @@ namespace ThreadSafeCache.Storages
 
 		public int Length => _elements.Count;
 
-		public void Add(T element)
+		public int Add(T element)
 		{
 			_elements.Add(element);
+			return _elements.Count;
 		}
 
 		public T Get(int index)
