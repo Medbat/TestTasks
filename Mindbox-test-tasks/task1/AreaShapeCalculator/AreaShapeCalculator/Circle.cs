@@ -21,7 +21,7 @@ namespace AreaShapeCalculator
 		{
 			if (radius <= 0)
 			{
-				throw new ArgumentException("Circle radius must exceed 0", "radius");
+				throw new ArgumentException("Circle radius must exceed 0", nameof(radius));
 			}
 			Radius = radius;
 		}
