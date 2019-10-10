@@ -4,6 +4,9 @@
 --	article_tag (article_id, tag_id)
 -- третья таблица нужна для установления связи многие ко многим
 
-select id, title from article a left outer join 
-(select id, name from tag) t 
-on exists (select * from article_tag where a.id = article_id and t.id = tag_id)
+select a.title, t.name
+     from article a 
+left join article_tag at
+         on a.id = at.article_id
+left join tag t
+         on t.id = at.tag_id
