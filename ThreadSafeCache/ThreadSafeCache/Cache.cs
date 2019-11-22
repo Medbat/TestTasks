@@ -162,6 +162,7 @@ namespace ThreadSafeCache
 
 		private void AutoReleaseOld()
 		{
+			//123123
 			while (true)
 			{
 				if (!AutoReleaseInterval.HasValue || !LifeTime.HasValue)
