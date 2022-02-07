@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyName.Captcha.Api.EntityFramework\CompanyName.Captcha.Api.EntityFramework.csproj" />
+    <ProjectReference Include="..\CompanyName.Captcha.Api.Primitives\CompanyName.Captcha.Api.Primitives.csproj" />
+    <ProjectReference Include="..\CompanyName.Captcha.Api.Runtime.Abstractions\CompanyName.Captcha.Api.Runtime.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

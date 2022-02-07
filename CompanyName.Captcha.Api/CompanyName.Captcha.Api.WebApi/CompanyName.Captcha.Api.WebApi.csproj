@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyName.Captcha.Api.Runtime.Abstractions\CompanyName.Captcha.Api.Runtime.Abstractions.csproj" />
+    <ProjectReference Include="..\CompanyName.Captcha.Api.Runtime\CompanyName.Captcha.Api.Runtime.csproj" />
+  </ItemGroup>
+
+</Project>
