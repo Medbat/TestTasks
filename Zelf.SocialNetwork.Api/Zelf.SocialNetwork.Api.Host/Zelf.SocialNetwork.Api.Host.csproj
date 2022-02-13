@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zelf.SocialNetwork.Api.EntityFramework\Zelf.SocialNetwork.Api.EntityFramework.csproj" />
+    <ProjectReference Include="..\Zelf.SocialNetwork.Api.WebApi\Zelf.SocialNetwork.Api.WebApi.csproj" />
+  </ItemGroup>
+
+</Project>
